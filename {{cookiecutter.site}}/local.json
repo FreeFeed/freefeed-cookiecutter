@@ -1,0 +1,58 @@
+{
+  "secret": "{{ cookiecutter.secret }}",
+  "origin": "*",
+  "serviceName": "FreeFeed",
+  "trustProxyHeaders": true,
+  "company": {
+    "title": "{{ cookiecutter.company_title }}",
+    "address": "{{ cookiecutter.company_address }}"
+  },
+  "host": "https://{{ cookiecutter.hostname }}",
+  "media": {
+    "url": "https://{{ cookiecutter.hostname }}/",
+    "storage": {
+      "type": "fs",
+      "rootDir": "{{ cookiecutter.files_root_dir }}"
+    }
+  },
+  "attachments": {
+    "fileSizeLimit": 52428800
+  },
+  "profilePictures": {
+    "defaultProfilePictureMediumUrl": "https://media.freefeed.net/attachments/d067713e-0ba4-4d0a-ae1f-41b31780fda3.png"
+  },
+  "mailer": {
+    "useSMTPTransport": true,
+    "fromName": "{{ cookiecutter.mailer_from_name }}",
+    "fromEmail": "{{ cookiecutter.mailer_from_email }}",
+    "resetPasswordMailSubject": "{{ cookiecutter.site_title }} password reset",
+    "options": {
+      "host": "{{ cookiecutter.mailer_smtp_host }}",
+      "port": {{ cookiecutter.mailer_smtp_port }},
+      "secure": {{ cookiecutter.mailer_use_tls }},
+      "auth": {
+        "user": "{{ cookiecutter.mailer_smtp_user }}",
+        "pass": "{{ cookiecutter.mailer_smtp_pass }}"
+      }
+    }
+  },
+  "redis": {
+    "host": "{{ cookiecutter.redis_host }}",
+    "port": "{{ cookiecutter.redis_port }}"
+  },
+  "postgres": {
+    "connection": {
+      "host": "{{ cookiecutter.postgres_host }}",
+      "database": "{{ cookiecutter.postgres_dbname }}",
+      "user": "{{ cookiecutter.postgres_user }}",
+      "password": "{{ cookiecutter.postgres_pass }}"
+    },
+    "pool": {
+      "idleTimeoutMillis": 3600000
+    }
+  },
+  "performance": {
+    "searchQueriesTimeout": 45000
+  },
+  "eof": true
+}
