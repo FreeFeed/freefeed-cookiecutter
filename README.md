@@ -1,6 +1,6 @@
-# Getting your own instance of FreeFeed
+# Getting your own instance of [FreeFeed](https://freefeed.net/)
 
-This repository provides a simple way to spin up your own FreeFeed instance on DigitalOcean. If you prefer or otherwise have to use another hosting provider, you might need to do some minor modifications in the config, and some manual steps might be different.
+This repository provides a simple way to spin up your own [FreeFeed](https://freefeed.net/) instance on DigitalOcean. If you prefer or otherwise have to use another hosting provider, you might need to do some minor modifications in the config, and some manual steps might be different.
 
 ## Prerequisites
 
