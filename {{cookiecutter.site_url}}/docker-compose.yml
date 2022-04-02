@@ -1,0 +1,104 @@
+version: "3"
+services:
+  migrations:
+    command:
+      - ./node_modules/.bin/knex
+      - migrate:latest
+    container_name: migrations
+    environment:
+      - NODE_ENV=production
+      - NODE_CONFIG_ENV=release
+    image: freefeed/freefeed-server:freefeed_release_1.106.0
+    ipc: private
+    networks:
+      - freefeed
+    volumes:
+      - ./local.json:/server/config/local-release.json:ro
+    working_dir: /server
+    depends_on:
+      - postgres
+  server:
+    command:
+      - yarn
+      - start
+    container_name: server
+    environment:
+      - NODE_ENV=production
+      - NODE_CONFIG_ENV=release
+      - FRFS_PORT=3000
+    image: freefeed/freefeed-server:freefeed_release_1.106.0
+    ipc: private
+    networks:
+      - freefeed
+    ports:
+      - 3000:3000/tcp
+    restart: on-failure
+    volumes:
+      - ./local.json:/server/config/local-release.json:ro
+      - /var/freefeed-files:/var/freefeed-files
+    working_dir: /server
+    healthcheck:
+      test: ["CMD", "curl", "-s", "--fail", "http://localhost:3000/v2/server-info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      - postgres
+      - migrations
+      - redis
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./
+      dockerfile: 'nginx.Dockerfile'
+    ipc: private
+    networks:
+      - freefeed
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    restart: on-failure
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl.conf:/etc/nginx/ssl.conf:ro
+      - ./site.conf:/etc/nginx/conf.d/default.conf:ro
+      - {{ cookiecutter.nginx_ssl_cert }}:/etc/nginx/fullchain.pem:ro
+      - {{ cookiecutter.nginx_ssl_key }}:/etc/nginx/privkey.pem:ro
+      - {{ cookiecutter.nginx_ssl_cert_chain }}:/etc/nginx/chain.pem:ro
+      - ./config.json:/usr/share/nginx/config.json:ro
+      - /var/freefeed-files:/var/freefeed-files:ro
+    depends_on:
+      - server
+  redis:
+    command:
+      - redis-server
+    container_name: redis
+    image: redis:latest
+    ipc: private
+    networks:
+      - freefeed
+    restart: on-failure
+    working_dir: /data
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=freefeed
+      - POSTGRES_PASSWORD=freefeed
+    restart: on-failure
+    networks:
+      - freefeed
+    volumes:
+      - db:/var/lib/postgresql/data
+
+networks:
+  freefeed:
+    external: true
+    name: freefeed
+
+volumes:
+  db:
+    driver: local

@@ -12,7 +12,7 @@
     "url": "https://{{ cookiecutter.hostname }}/",
     "storage": {
       "type": "fs",
-      "rootDir": "{{ cookiecutter.files_root_dir }}"
+      "rootDir": "/var/freefeed-files/"
     }
   },
   "attachments": {
@@ -27,25 +27,25 @@
     "fromEmail": "{{ cookiecutter.mailer_from_email }}",
     "resetPasswordMailSubject": "{{ cookiecutter.site_title }} password reset",
     "options": {
-      "host": "{{ cookiecutter.mailer_smtp_host }}",
-      "port": {{ cookiecutter.mailer_smtp_port }},
-      "secure": {{ cookiecutter.mailer_use_tls }},
+      "host": "localhost",
+      "port": 587,
+      "secure": true,
       "auth": {
-        "user": "{{ cookiecutter.mailer_smtp_user }}",
-        "pass": "{{ cookiecutter.mailer_smtp_pass }}"
+        "user": "smtp",
+        "pass": "smtp"
       }
     }
   },
   "redis": {
-    "host": "{{ cookiecutter.redis_host }}",
-    "port": "{{ cookiecutter.redis_port }}"
+    "host": "redis",
+    "port": 6379
   },
   "postgres": {
     "connection": {
-      "host": "{{ cookiecutter.postgres_host }}",
-      "database": "{{ cookiecutter.postgres_dbname }}",
-      "user": "{{ cookiecutter.postgres_user }}",
-      "password": "{{ cookiecutter.postgres_pass }}"
+      "host": "postgres",
+      "database": "freefeed",
+      "user": "freefeed",
+      "password": "freefeed"
     },
     "pool": {
       "idleTimeoutMillis": 3600000

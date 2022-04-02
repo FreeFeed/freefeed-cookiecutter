@@ -5,8 +5,8 @@
     "siteOrigin": "https://{{ cookiecutter.hostname }}",
     "siteTitle": "{{ cookiecutter.site_title }}",
     "auth": {
-        "tokenPrefix": "{{ cookiecutter.auth_token_prefix }}",
-        "userStorageKey": "{{ cookiecutter.local_storage_whoami_cache_key }}"
+        "tokenPrefix": "{{ cookiecutter.site_url | replace('.', '_') }}",
+        "userStorageKey": "whoamiCache"
     },
     "captcha": {
       "siteKey": ""
