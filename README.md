@@ -72,7 +72,7 @@ Certbot will ask a few questions in the process. You need to have your domain al
 ### Configure and run
 
     pip3 install cookiecutter
-    cookiecutter https://github.com/id/freefeed-cookiecutter # answer questions to setup your own config
+    cookiecutter https://github.com/freefeed/freefeed-cookiecutter # answer questions to setup your own config
     cd <your site url>
     docker network create freefeed
     docker-compose build
